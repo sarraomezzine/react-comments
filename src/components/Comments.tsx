@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import CommentItem from './CommentItem';
 import type { Comment } from '../../types/comment';
+import './Comments.css';
 
 // Main Comments Component
 interface CommentsProps {
@@ -48,28 +49,32 @@ const Comments: React.FC<CommentsProps> = ({ onCommentChange }) => {
   };
 
   return (
-    <div style={{ maxWidth: '600px', padding: '20px' }}>
-      <h2>Comments  ({comments.length})</h2>
+        <div className="comments-container">
+      <h2 className="comments-title">Comments ({comments.length})</h2>
       
-      <div style={{ marginBottom: '20px' }}>
+      <div className="comments-form">
         <textarea
           value={newCommentText}
           onChange={(e) => setNewCommentText(e.target.value)}
           placeholder="Write a comment..."
           rows={3}
-          style={{ width: '100%', marginBottom: '10px' }}
+          className="comments-textarea"
         />
-        <button onClick={handleAddComment} disabled={!newCommentText.trim()}>
+        <button 
+          onClick={handleAddComment} 
+          disabled={!newCommentText.trim()}
+          className="comments-submit-btn"
+        >
           Add Comment
         </button>
       </div>
 
-      <div>
+      <div className="comments-list">
         {comments.length === 0 ? (
-          <p style={{ color: '#666' }}>No comments yet. Be the first to comment!</p>
+          <p className="comments-empty">No comments yet. Be the first to comment!</p>
         ) : (
           comments.map(comment => (
-            <CommentItem 
+            <CommentItem
               key={comment.id}
               comment={comment}
               onDelete={deleteComment}

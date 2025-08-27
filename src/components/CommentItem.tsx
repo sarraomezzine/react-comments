@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Comment } from '../../types/comment';
+import './Comments.css';
 
 interface CommentItemProps {
   comment: Comment;
@@ -14,11 +15,19 @@ const CommentItem: React.FC<CommentItemProps> = ({
 }) => {
 
   return (
-    <div style={{ marginLeft: depth * 20, border: '1px solid #ddd', padding: '10px', margin: '5px 0' }}>
-      <div>{comment.text}</div>
-      <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-        <span>{new Date(comment.timestamp).toLocaleString()}</span>
-        <button onClick={() => onDelete(comment.id)} style={{ marginLeft: '10px' }}>
+        <div 
+      className={`comment-item ${depth > 0 ? 'comment-reply' : ''}`}
+      style={{ marginLeft: depth * 20 }}
+    >
+      <div className="comment-item-text">{comment.text}</div>
+      <div className="comment-item-meta">
+        <span className="comment-item-timestamp">
+          {new Date(comment.timestamp).toLocaleString()}
+        </span>
+        <button 
+          onClick={() => onDelete(comment.id)} 
+          className="comment-item-delete-btn"
+        >
           Delete
         </button>
       </div>
