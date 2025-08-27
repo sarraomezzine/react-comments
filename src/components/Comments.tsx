@@ -13,19 +13,43 @@ const Comments: React.FC<CommentsProps> = ({ onCommentChange }) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newCommentText, setNewCommentText] = useState('');
 
-  const addComment = (text: string) => {
+  const addComment = (text: string, parentId?: string) => {
     if (!text.trim()) return;
 
     const newComment: Comment = {
       id: uuidv4(),
       text: text.trim(),
       timestamp: Date.now(),
+      parentId,
       replies: []
     };
 
-    const updatedComments = [...comments, newComment];
-    setComments(updatedComments);
-    onCommentChange?.(updatedComments);
+    if (!parentId) {
+      // Add as top-level comment
+      const updatedComments = [...comments, newComment];
+      setComments(updatedComments);
+      onCommentChange?.(updatedComments);
+    } else {
+      // Add as reply
+      const addReplyToTree = (commentList: Comment[]): Comment[] => {
+        return commentList.map(comment => {
+          if (comment.id === parentId) {
+            return {
+              ...comment,
+              replies: [...comment.replies, newComment]
+            };
+          }
+          return {
+            ...comment,
+            replies: addReplyToTree(comment.replies)
+          };
+        });
+      };
+
+      const updatedComments = addReplyToTree(comments);
+      setComments(updatedComments);
+      onCommentChange?.(updatedComments);
+    }
   };
 
   const deleteComment = (commentId: string) => {
@@ -48,9 +72,13 @@ const Comments: React.FC<CommentsProps> = ({ onCommentChange }) => {
     setNewCommentText('');
   };
 
+  const handleReply = (parentId: string, replyText: string) => {
+    addComment(replyText, parentId);
+  };
+
   return (
-        <div className="comments-container">
-      <h2 className="comments-title">Comments ({comments.length})</h2>
+    <div className="comments-container">
+      <h2 className="comments-title">Comments  ({comments.length})</h2>
       
       <div className="comments-form">
         <textarea
@@ -77,6 +105,7 @@ const Comments: React.FC<CommentsProps> = ({ onCommentChange }) => {
             <CommentItem
               key={comment.id}
               comment={comment}
+              onReply={handleReply}
               onDelete={deleteComment}
             />
           ))
