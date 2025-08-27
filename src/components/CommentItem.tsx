@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { Comment } from '../../types/comment';
+import type { Comment } from '../types/comment';
 import './Comments.css';
 
 interface CommentItemProps {
