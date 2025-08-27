@@ -1,49 +1,9 @@
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import CommentItem from './CommentItem';
+import type { Comment } from '../../types/comment';
 
-export interface Comment {
-  id: string;
-  text: string;
-  timestamp: number;
-  parentId?: string;
-  replies: Comment[];
-}
-
-interface CommentItemProps {
-  comment: Comment;
-  depth?: number;
-  onDelete: (commentId: string) => void;
-}
-
-const CommentItem: React.FC<CommentItemProps> = ({ 
-  comment, 
-  depth = 0, 
-  onDelete 
-}) => {
-
-  return (
-    <div style={{ marginLeft: depth * 20, border: '1px solid #ddd', padding: '10px', margin: '5px 0' }}>
-      <div>{comment.text}</div>
-      <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-        <span>{new Date(comment.timestamp).toLocaleString()}</span>
-        <button onClick={() => onDelete(comment.id)} style={{ marginLeft: '10px' }}>
-          Delete
-        </button>
-      </div>
-      
-      {comment.replies.map(reply => (
-        <CommentItem
-          key={reply.id}
-          comment={reply}
-          depth={depth + 1}
-          onDelete={onDelete}
-        />
-      ))}
-    </div>
-  );
-};
-
-// Main Comments  Component
+// Main Comments Component
 interface CommentsProps {
   onCommentChange?: (comments: Comment[]) => void;
 }
@@ -109,7 +69,7 @@ const Comments: React.FC<CommentsProps> = ({ onCommentChange }) => {
           <p style={{ color: '#666' }}>No comments yet. Be the first to comment!</p>
         ) : (
           comments.map(comment => (
-            <CommentItem
+            <CommentItem 
               key={comment.id}
               comment={comment}
               onDelete={deleteComment}
