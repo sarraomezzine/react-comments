@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { Comment } from '../../types/comment';
+import { formatTimestamp } from '../../utils/commentHelpers';
 import './Comments.css';
 
 interface CommentItemProps {
@@ -39,7 +40,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
       <div className="comment-item-text">{comment.text}</div>
       <div className="comment-item-meta">
         <span className="comment-item-timestamp">
-          {new Date(comment.timestamp).toLocaleString()}
+          {formatTimestamp(comment.timestamp)}
         </span>
         <button 
           onClick={() => setIsReplying(!isReplying)} 
