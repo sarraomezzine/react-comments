@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CommentItem from './CommentItem';
-import { useComments } from '../hooks/useComments';
-import type { Comment } from '../types/comment';
+import type { Comment } from '../../types/comment';
+import { useComments } from '../../hooks/useComments';
 import './Comments.css';
 
 // Main Comments Component
