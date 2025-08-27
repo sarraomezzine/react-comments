@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 export interface Comment {
   id: string;
   text: string;
+  timestamp: number;
   parentId?: string;
   replies: Comment[];
 }
@@ -24,6 +25,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
     <div style={{ marginLeft: depth * 20, border: '1px solid #ddd', padding: '10px', margin: '5px 0' }}>
       <div>{comment.text}</div>
       <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
+        <span>{new Date(comment.timestamp).toLocaleString()}</span>
         <button onClick={() => onDelete(comment.id)} style={{ marginLeft: '10px' }}>
           Delete
         </button>
@@ -56,6 +58,7 @@ const Comments: React.FC<CommentsProps> = ({ onCommentChange }) => {
     const newComment: Comment = {
       id: uuidv4(),
       text: text.trim(),
+      timestamp: Date.now(),
       replies: []
     };
 
