@@ -7,6 +7,7 @@ import {
   addReplyToComment, 
   removeCommentById 
 } from '../utils/commentHelpers';
+import { broadcastSync } from '../utils/broadcastSync';
 
 /**
  * Custom hook for managing comments state and operations
@@ -42,6 +43,7 @@ export const useComments = (onCommentChange?: (comments: Comment[]) => void) => 
       setError(null);
       const flatComments = flattenComments(newComments);
       await commentsDB.saveComments(flatComments);
+      broadcastSync.notifyUpdate();
       onCommentChange?.(newComments);
     } catch (err) {
       console.error('Failed to save comments:', err);
@@ -98,6 +100,19 @@ export const useComments = (onCommentChange?: (comments: Comment[]) => void) => 
     loadComments();
   }, [loadComments]);
 
+  // Listen for cross-tab sync events
+  useEffect(() => {
+    const handleSync = () => {
+      loadComments();
+    };
+
+    broadcastSync.onSync(handleSync);
+
+    return () => {
+      broadcastSync.offSync(handleSync);
+    };
+  }, [loadComments]);
+  
   return {
     comments,
     isLoading,
