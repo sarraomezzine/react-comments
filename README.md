@@ -1,69 +1,54 @@
-# React + TypeScript + Vite
+# React Comments Component
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React comments component with nested comments, persistence, and real-time synchronization across tabs.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+✅ **Display comments list** - Shows all comments in a clean, organised layout  
+✅ **Add new comments** - Users can enter text and add comments with a single click  
+✅ **Delete comments** - Remove unwanted comments from the list  
+✅ **Nested comments** - Reply to comments
+✅ **Persistent storage** - Comments are saved using IndexedDB and persist across app restarts  
+✅ **Cross-tab synchronization** - Changes are automatically synced across multiple browser tabs in real-time  
 
-## Expanding the ESLint configuration
+## Technical Implementation
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Core Technologies
+- **React 19** with TypeScript
+- **IndexedDB** for local persistence (no external database required)
+- **BroadcastChannel API** for cross-tab communication
+- **UUID** for unique comment identification
+- **Vite** for development and building
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Installation
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Development
+```bash
+npm run dev
 ```
+
+### Build for Production
+```bash
+npm run build
+```
+
+### Run tests
+```bash
+npm run test
+```
+
+## Next?
+
+Potential improvements for production use:
+- Comments Editing
+- Collapsing of nested comments and loading additional comments
+- Allow only one level of reply to simplify the thread and improve readability
+- Associate comments with a user identifier
+- Storybooks to showcase components usage.
+- CI/CD using github action
+- Filter or flag inappropriate language and offensive content

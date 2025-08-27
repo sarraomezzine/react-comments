@@ -14,22 +14,6 @@ const mockComment: Comment = {
   replies: [],
 }
 
-const mockCommentWithReplies: Comment = {
-  id: '2',
-  text: 'Parent comment',
-  timestamp: new Date('2024-01-01T10:00:00Z').getTime(),
-  parentId: undefined,
-  replies: [
-    {
-      id: '3',
-      text: 'Reply to parent',
-      timestamp: new Date('2024-01-01T10:05:00Z').getTime(),
-      parentId: '2',
-      replies: [],
-    },
-  ],
-}
-
 describe('CommentItem', () => {
   beforeEach(() => {
     vi.clearAllMocks()
